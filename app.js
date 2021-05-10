@@ -11,14 +11,17 @@ console.log(randomNum.randomNum)
 
 // importerar bodyParser - tar hand om bodyn i POST requestet och skickar vidare, "middleware"
 const bodyParser = require('body-parser')
-const urlencodedParser = bodyParser.urlencoded({ extended: false });
+//const urlencodedParser = bodyParser.urlencoded({ extended: false });
+
 
 // skapar en variabel app och som innehåller express. Med det får variablen metoderna som behövs för att köra express.
 const app = express();
+app.use(express.urlencoded({ extended: false }))
+app.use(express.json());
 
 // använder ejs - html markup med ren javascript
 app.set('view engine', 'ejs');
-
+app.use(express.static('public'))
 //Skriver våra routes, svarar till /, och kör då funktionen som är vårt andra argument
 // get() är en metod som hämtar. Det är en request metod som i detta fall hämtar
 // root: __dirname pekar mot roten av projektet. det är därifrån man hämtar url vägen
@@ -38,25 +41,32 @@ app.get('/contact', (req, res) => {
     res.sendFile('./public/contact.html', { root: __dirname });
 });
 
-// function getVowels(str) {
-//     var m = str.match(/[aeiou]/gi);
-//     return m === null ? 0 : m.length;
-// }
-// console.log(getVowels(req.body.name))
+function getVowels(str) {
+    var m = str.match(/[aeiou]/gi);
+    return m === null ? 0 : m.length;
+}
+//console.log(getVowels(req.body.name))
 
 //Hanterar submitten från kontaktformulätet
-app.post('/contact', urlencodedParser, function (req, res) {
+app.post('/contact', function (req, res) {
     console.log(req.body);
     // renderar en ny fil och skickar med datan från formuläret. Nya filen har nu tillgång till datan från formuläret
     res.render('contact-success', { data: req.body });
 });
 //skapar en ny endpoint, som retunerar värdet ifrån vår function i random-num-komponenten. Ett bestämt nummer
 app.get('/api/random', (req, res) => {
-    res.send(randomNum.num)
+    res.send({ number: parseInt(randomNum.getRandomNum(0, 1024).toFixed(0)) })
 })
 //skapar en ny endpoint, som retunerar värdet ifrån vår function i random-num-komponenten. Ett slumpmässigt nummer
-app.get('/api/custom_random/num', (req, res) => {
-    res.send(randomNum.randomNum)
+app.get('/api/custom_random/:num', (req, res) => {
+    var num = req.params.num;
+    console.log(num)
+    res.send({ number: parseInt(randomNum.getRandomNum(0, num).toFixed(0)) })
 })
+
+app.post('/vowels', function (req, res) {
+    console.log(req.body);
+    res.send({ vowelCount: getVowels(req.body.word) });
+});
 
 app.listen(4000);
