@@ -1,29 +1,27 @@
-// En webbserver skall skapas medelst node.js och valfritt/valfria ytterligare bibliotek.
-// Den ska serva filer som ligger i en undermapp public/
-// En kort dokumentation i form av kommentarer i koden som visar källor ni använt skall finnas med.
-
-// GET /api/random -- Skall returnera ett JSON-objekt i formatet { “number”: tal }
-// tal är ett nummer mellan 0 och 1023
-// GET /api/custom_random/num -- skall returnera ett slumpmässigt tal mellan 0 
-// och num enligt samma format som ovan.
-// Skapa ytterligare en endpoint, fritt val. Vill ni verkligen utmana er, 
-// så gör så att det tar emot en POST, hanterar datan, och spottar ur sig information, 
-// t.ex räknar antalet vokaler.
-
 // källor - Netninjas tutorial om Node 
 // https://www.youtube.com/playlist?list=PL4cUxeGkcC9jsz4LDYc6kv3ymONOKxwBU
 // https://www.youtube.com/playlist?list=PL4cUxeGkcC9gcy9lrvMJ75z9maRw4byYp
 
-
 // importerar biblioteket express
 const express = require('express');
-//Alt. Kör functionen express och tilldelar det till en variabel, app
+//importerar värden ifrån random-num komponentern. 
+const randomNum = require('./public/random-num');
+console.log(randomNum.num)
+console.log(randomNum.randomNum)
+
+// importerar bodyParser - tar hand om bodyn i POST requestet och skickar vidare, "middleware"
+const bodyParser = require('body-parser')
+const urlencodedParser = bodyParser.urlencoded({ extended: false });
+
 // skapar en variabel app och som innehåller express. Med det får variablen metoderna som behövs för att köra express.
 const app = express();
 
+// använder ejs - html markup med ren javascript
+app.set('view engine', 'ejs');
+
 //Skriver våra routes, svarar till /, och kör då funktionen som är vårt andra argument
 // get() är en metod som hämtar. Det är en request metod som i detta fall hämtar
-// root: __dirname pekar mot roten av projektet. det är därifrån man hämtar url vägen (typ, kanske)
+// root: __dirname pekar mot roten av projektet. det är därifrån man hämtar url vägen
 app.get('/', (req, res) => {
     res.sendFile('./public/index.html', { root: __dirname });
 });
@@ -39,13 +37,26 @@ app.get('/project', (req, res) => {
 app.get('/contact', (req, res) => {
     res.sendFile('./public/contact.html', { root: __dirname });
 });
+
+// function getVowels(str) {
+//     var m = str.match(/[aeiou]/gi);
+//     return m === null ? 0 : m.length;
+// }
+// console.log(getVowels(req.body.name))
+
+//Hanterar submitten från kontaktformulätet
+app.post('/contact', urlencodedParser, function (req, res) {
+    console.log(req.body);
+    // renderar en ny fil och skickar med datan från formuläret. Nya filen har nu tillgång till datan från formuläret
+    res.render('contact-success', { data: req.body });
+});
+//skapar en ny endpoint, som retunerar värdet ifrån vår function i random-num-komponenten. Ett bestämt nummer
 app.get('/api/random', (req, res) => {
+    res.send(randomNum.num)
+})
+//skapar en ny endpoint, som retunerar värdet ifrån vår function i random-num-komponenten. Ett slumpmässigt nummer
+app.get('/api/custom_random/num', (req, res) => {
+    res.send(randomNum.randomNum)
 })
 
 app.listen(4000);
-
-
-//     } else if (req.url === '/api/ninjas') {
-//         var ninjas = [{ name: 'Carl', age: 37 }, { name: 'Barbro', age: 52 }];
-//         res.writeHead(200, { 'Content-type': 'application/json' })
-//         res.end(JSON.stringify(ninjas));

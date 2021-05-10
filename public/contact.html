@@ -9,7 +9,27 @@
 </head>
 
 <body>
-    <h4>Call me! </h4>
+    <h4>Contact </h4>
+    <!-- HTML
+Form, method="POST"
+action="ex./contact", url:en "posten" ligger i -->
+    <form action="/contact" method="POST" class="contact-form">
+        <div class="contact-form">
+            <label for="name">Enter your name: </label>
+            <input type="text" name="name" id="name">
+        </div>
+        <div class="contact-form">
+            <label for="email">Enter your email: </label>
+            <input type="email" name="email" id="email">
+        </div>
+        <div class="contact-form">
+            <label for="work">Enter the work title: </label>
+            <input type="work" name="work" id="work">
+        </div>
+        <div class="contact-form">
+            <input type="submit" value="Submit">
+        </div>
+    </form>
 </body>
 
 </html>
