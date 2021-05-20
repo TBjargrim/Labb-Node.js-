@@ -74,4 +74,4 @@ app.post('/vowels', function (req, res) {
     res.send({ vowelCount: getVowels(req.body.word) });
 });
 
-app.listen(4000);
+app.listen(5000);
