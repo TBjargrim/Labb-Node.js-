@@ -1,7 +1,9 @@
 // källor - Netninjas tutorial om Node 
 // https://www.youtube.com/playlist?list=PL4cUxeGkcC9jsz4LDYc6kv3ymONOKxwBU
 // https://www.youtube.com/playlist?list=PL4cUxeGkcC9gcy9lrvMJ75z9maRw4byYp
-
+const assert = require('chai').assert;
+const request = require('request')
+const expect = require('chai').expect;
 // importerar biblioteket express
 const express = require('express');
 //importerar värden ifrån random-num komponentern. 
@@ -66,12 +68,13 @@ app.get('/api/random', (req, res) => {
 app.get('/api/custom_random/:num', (req, res) => {
     var num = req.params.num;
     // console.log(num)
-    res.send({ number: parseInt(randomNum.getRandomNum(0, num).toFixed(0)) })
+    res.send({ number: parseInt(randomNum.getRandomNum(0, num)).toFixed(0) })
 })
-
+// 
 app.post('/vowels', function (req, res) {
     // console.log(req.body);
     res.send({ vowelCount: getVowels(req.body.word) });
 });
 
-app.listen(5000);
+
+app.listen(4000);
