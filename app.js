@@ -60,9 +60,11 @@ app.post('/contact', function (req, res) {
 app.get('/api/random', (req, res) => {
     res.send({ number: parseInt(randomNum.getRandomNum(0, 1024).toFixed(0)) })
 })
-app.get('/people', (req, res) => {
-    res.send(randomNum.getPeople('tess', 'goofy', 12))
-    console.log(randomNum.getPeople('tess', 'goofy', 12))
+app.get('/people/:firstName', (req, res) => {
+    let newPerson = req.params.firstName
+    // res.setHeader('Content-Type', 'application/json');
+    // res.json(randomNum.getPeople(newPerson, 'Roswell', 12))
+    res.send(randomNum.getPeople(newPerson, 'Roswell', 12))
 })
 //skapar en ny endpoint, som retunerar värdet ifrån vår function i random-num-komponenten. Ett slumpmässigt nummer
 app.get('/api/custom_random/:num', (req, res) => {

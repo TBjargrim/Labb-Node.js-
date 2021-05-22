@@ -87,15 +87,9 @@ describe('Custum random number', () => {
             describe('Is the number between 0 and choosen number', () => {
                 it('return a random num between 0 and choosen num', (done) => {
                     request(custumRandomPath, function (error, response, body) {
-                        // let url = 'http://localhost:4000/api/custom_random/'
-
-
-                        // console.log(JSON.parse(response.body).number)
-                        // console.log(response)
-                        // console.log(num)
-                        // Uncaught AssertionError: expected 'http://localhost:4000/api/custom_random/59' to be a number or a date
-                        expect(JSON.parse(response.body).number).to.not.be.above(num);
-                        //Find a better way then .to.not.be.above
+                        let number = JSON.parse(response.body).number
+                        let parsedNumber = JSON.parse(number)
+                        expect(parsedNumber).to.be.at.most(num);
                         done()
                     })
                 })
@@ -104,39 +98,71 @@ describe('Custum random number', () => {
     })
 })
 
-// body: [Object: null prototype] {
-//     name: 'Sandra Persson',
-//     email: 'sandraspersson@hotmail.com',
-//     work: 'Front end'
-//   },
+//Test People
+//StatusCode 200
+// JSON format
 
+describe('People endpoint testing', () => {
+    // const peoplePath = 'people';
+    const peopleURL = 'http://localhost:4000/people/therese';
+    // const checkName = 'therese';
+    // const peoplePersonURL = urlPath + peoplePath + checkName;
+
+    describe('It schould return status code 200', () => {
+        it('should return status 200', (done) => {
+            request(peopleURL, function (error, response, body) {
+                expect(response.statusCode).to.equal(200);
+                done();
+            })
+        })
+
+        describe('Checking type of', () => {
+            it('Should return JSON format', (done) => {
+                request(peopleURL, function (error, response, body) {
+                    expect(response.headers['content-type']).to.equal('application/json; charset=utf-8');
+                    done();
+                })
+            })
+            // Check if the name in the url path is the same as in the object, expect people[5].firstName = to be the same as the url path
+            describe('Check so the name in the url renders', () => {
+                it('Show params in last object in array, "therese"', (done) => {
+                    request(peopleURL, function (error, response, body) {
+                        expect(JSON.parse(response.body)[5].firstName).to.equal('therese');
+                        done();
+                    })
+                })
+            })
+        })
+    })
+})
 
 //Test for contact endpoint,
 //Check if it return 200
 //Check if req.body has data and what kind of data
 //Check 
 
-describe('Contact endpoint testing', () => {
-    const contactPath = 'contact';
-    const contactURL = urlPath + contactPath;
-    describe('It schould return status code 200', () => {
-        it('should return status 200', (done) => {
-            request(contactURL, function (error, response, body) {
-                expect(response.statusCode).to.equal(200);
-                done();
-            })
-        })
-    })
-    describe('Checking type of', () => {
-        it('Should return JSON format', () => {
-            request(contactURL, function (error, response, body) {
-                console.log(response.req.body)
-            })
-        })
-    })
-})
+// body: [Object: null prototype] {
+//     name: 'Sandra Persson',
+//     email: 'sandraspersson@hotmail.com',
+//     work: 'Front end'
+//   },
 
-//Test People
-//StatusCode 200
-// JSON format
-// ???
+// describe('Contact endpoint testing', () => {
+//     const contactPath = 'contact';
+//     const contactURL = urlPath + contactPath;
+//     describe('It schould return status code 200', () => {
+//         it('should return status 200', (done) => {
+//             request(contactURL, function (error, response, body) {
+//                 expect(response.statusCode).to.equal(200);
+//                 done();
+//             })
+//         })
+//     })
+//     describe('Checking type of', () => {
+//         it('Should return JSON format', () => {
+//             request(contactURL, function (error, response, body) {
+//                 console.log(response.req.body)
+//             })
+//         })
+//     })
+// })
