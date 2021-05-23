@@ -18,11 +18,13 @@ function getPeople(name, lastName, age) {
     return people;
 }
 
+
 //exporterar dessa värden till resten av filerna. 
 module.exports = {
     randomNum: randomNum,
     num: num,
     getRandomNum,
-    getPeople
+    getPeople,
+
 }
 

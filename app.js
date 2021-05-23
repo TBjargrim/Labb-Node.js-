@@ -73,15 +73,15 @@ app.get('/api/custom_random/:num', (req, res) => {
     res.send({ number: parseInt(randomNum.getRandomNum(0, num)).toFixed(0) })
 })
 
-app.post('/vowels', function (req, res) {
-    // console.log(req.body);
-    res.send({ vowelCount: getVowels(req.body.word) });
+function getVowels(city) {
+    let a = city.match(/[aeiou]/gi);
+    return a === null ? 0 : a.length;
+}
+
+app.get('/vowels/:city', function (req, res) {
+    let city = req.params.city;
+    res.send({ VowelsInCityName: getVowels(city) });
 });
 
-module.exports = {
-    getVowels: function (str) {
-        let a = str.match(/[aeiou]/gi);
-        return a === null ? 0 : a.length;
-    }
-}
+
 app.listen(4000);

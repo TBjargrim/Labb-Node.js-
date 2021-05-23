@@ -5,17 +5,59 @@ const axios = require('axios');
 const app = require('../app');
 const expect = require('chai').expect;
 
-getVowelsResult = app.getVowels('sandra');
+// let getVowelsResult = app.getVowels('sandra');
 
 const urlPath = 'http://localhost:4000/';
 
-//Testing function Vowels
-describe('Vowles testing', function () {
-    describe('Testing vowels counter', () => {
-        it('should count the number of vowels in string', () => {
-            assert.isAbove(getVowelsResult, 0);
+// //Testing function Vowels
+// describe('Vowles testing', function () {
+//     describe('Testing vowels counter', () => {
+//         it('should count the number of vowels in string', () => {
+//             assert.isAbove(getVowelsResult, 0);
+//         })
+//     })
+// })
+//Checking Vowels endpoint 
+describe('Vowels endpoint', () => {
+    const vowels = 'vowels/Istanbul';
+    const vowelsPath = urlPath + vowels;
+    describe('Testing vowels enpoint to return 200', () => {
+
+        // Checking status code to be OK, 200
+        it('should return statusCode 200', (done) => {
+            request(vowelsPath, function (error, response, body) {
+                expect(response.statusCode).to.equal(200);
+                done();
+            })
         })
+        // Type of data
+        describe('Returning JSON response, type of', () => {
+            it('Should return a JSON type of', (done) => {
+                request(vowelsPath, function (error, response, body) {
+                    expect(response.headers['content-type']).to.equal('application/json; charset=utf-8');
+                    done()
+                })
+
+            })
+            //Check to see that its the correct amount of vowels showing. Should return 3
+            describe('Check to that it´s the right amount of vowels showing', () => {
+                it('Return correct number', (done) => {
+                    request(randomPath, function (error, response, body) {
+                        console.log(JSON.parse(body))
+                        let city = JSON.parse(response.body)
+                        // let parsedCity = JSON.parse(city)
+                        expect(city).to.equal({
+                            "VowelsInCityName": 3
+                        });
+                        done()
+                    })
+
+                })
+            })
+
+        });
     })
+
 })
 
 describe('Random number', () => {
