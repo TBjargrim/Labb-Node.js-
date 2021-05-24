@@ -18,6 +18,10 @@ function getPeople(name, lastName, age) {
     return people;
 }
 
+function getVowels(city) {
+    let a = city.match(/[aeiou]/gi);
+    return a === null ? 0 : a.length;
+}
 
 //exporterar dessa värden till resten av filerna. 
 module.exports = {
@@ -25,6 +29,6 @@ module.exports = {
     num: num,
     getRandomNum,
     getPeople,
-
+    getVowels
 }
 

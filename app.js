@@ -7,10 +7,9 @@ const expect = require('chai').expect;
 // importerar biblioteket express
 const express = require('express');
 //importerar värden ifrån random-num komponentern. 
-const randomNum = require('./public/num');
+const numFile = require('./public/num');
 // console.log(randomNum.num)
 // console.log(randomNum.randomNum)
-
 
 // importerar bodyParser - tar hand om bodyn i POST requestet och skickar vidare, "middleware"
 const bodyParser = require('body-parser')
@@ -45,8 +44,6 @@ app.get('/contact', (req, res) => {
 });
 
 
-//console.log(getVowels(req.body.name))
-
 //Hanterar submitten från kontaktformulätet
 app.post('/contact', function (req, res) {
     // console.log(req.body);
@@ -58,30 +55,30 @@ app.post('/contact', function (req, res) {
 
 
 app.get('/api/random', (req, res) => {
-    res.send({ number: parseInt(randomNum.getRandomNum(0, 1024).toFixed(0)) })
+    res.send({ number: parseInt(numFile.getRandomNum(0, 1024).toFixed(0)) })
 })
 app.get('/people/:firstName', (req, res) => {
     let newPerson = req.params.firstName
     // res.setHeader('Content-Type', 'application/json');
     // res.json(randomNum.getPeople(newPerson, 'Roswell', 12))
-    res.send(randomNum.getPeople(newPerson, 'Roswell', 12))
+    res.send(numFile.getPeople(newPerson, 'Roswell', 12))
 })
 //skapar en ny endpoint, som retunerar värdet ifrån vår function i random-num-komponenten. Ett slumpmässigt nummer
 app.get('/api/custom_random/:num', (req, res) => {
     var num = req.params.num;
     // console.log(num)
-    res.send({ number: parseInt(randomNum.getRandomNum(0, num)).toFixed(0) })
+    res.send({ number: parseInt(numFile.getRandomNum(0, num)).toFixed(0) })
 })
 
-function getVowels(city) {
-    let a = city.match(/[aeiou]/gi);
-    return a === null ? 0 : a.length;
-}
+// * !! flyttat funktionen till num.js filen
+// function getVowels(city) {
+//     let a = city.match(/[aeiou]/gi);
+//     return a === null ? 0 : a.length;
+// }
 
 app.get('/vowels/:city', function (req, res) {
     let city = req.params.city;
-    res.send({ VowelsInCityName: getVowels(city) });
+    res.send({ vowels: parseInt(numFile.getVowels(city)) });
 });
-
 
 app.listen(4000);
