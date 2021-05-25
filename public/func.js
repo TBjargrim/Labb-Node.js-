@@ -23,12 +23,25 @@ function getVowels(city) {
     return a === null ? 0 : a.length;
 }
 
+
+function isAdmin(arr) {
+    const adminUsers = arr.filter(user => user.admin === true);
+    return adminUsers;
+}
+
+function calculate(num1, num2) {
+    const sum = num1 + num2;
+    return sum;
+}
+
 //exporterar dessa värden till resten av filerna. 
 module.exports = {
     randomNum: randomNum,
     num: num,
     getRandomNum,
     getPeople,
-    getVowels
+    getVowels,
+    isAdmin,
+    calculate
 }
 

@@ -2,17 +2,17 @@
 // const axios = require('axios');
 const request = require('request')
 const app = require('../app');
-const numFile = require('../public/num');
+const funcFile = require('../public/func');
 const expect = require('chai').expect;
 
-const urlPath = 'http://localhost:4000/';
+let urlPath = 'http://localhost:4000/';
 
 // ________________________________ Vowels test ________________________________
 
 //Checking Vowels endpoint 
 describe('Vowels endpoint', () => {
     // putting the function in a variable and adding a value
-    let getVowelsResult = numFile.getVowels('Halleluja');
+    let getVowelsResult = funcFile.getVowels('Halleluja');
 
     const vowels = 'vowels/Istanbul';
     const vowelsPath = urlPath + vowels;

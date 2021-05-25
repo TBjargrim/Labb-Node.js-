@@ -7,7 +7,7 @@ const expect = require('chai').expect;
 // importerar biblioteket express
 const express = require('express');
 //importerar värden ifrån random-num komponentern. 
-const numFile = require('./public/num');
+const funcFile = require('./public/func');
 // console.log(randomNum.num)
 // console.log(randomNum.randomNum)
 
@@ -55,30 +55,42 @@ app.post('/contact', function (req, res) {
 
 
 app.get('/api/random', (req, res) => {
-    res.send({ number: parseInt(numFile.getRandomNum(0, 1024).toFixed(0)) })
+    res.send({ number: parseInt(funcFile.getRandomNum(0, 1024).toFixed(0)) })
 })
 app.get('/people/:firstName', (req, res) => {
     let newPerson = req.params.firstName
     // res.setHeader('Content-Type', 'application/json');
     // res.json(randomNum.getPeople(newPerson, 'Roswell', 12))
-    res.send(numFile.getPeople(newPerson, 'Roswell', 12))
+    res.send(funcFile.getPeople(newPerson, 'Roswell', 12))
 })
 //skapar en ny endpoint, som retunerar värdet ifrån vår function i random-num-komponenten. Ett slumpmässigt nummer
 app.get('/api/custom_random/:num', (req, res) => {
     var num = req.params.num;
     // console.log(num)
-    res.send({ number: parseInt(numFile.getRandomNum(0, num)).toFixed(0) })
+    res.send({ number: parseInt(funcFile.getRandomNum(0, num)).toFixed(0) })
 })
-
-// * !! flyttat funktionen till num.js filen
-// function getVowels(city) {
-//     let a = city.match(/[aeiou]/gi);
-//     return a === null ? 0 : a.length;
-// }
 
 app.get('/vowels/:city', function (req, res) {
     let city = req.params.city;
-    res.send({ vowels: parseInt(numFile.getVowels(city)) });
+    res.send({ vowels: parseInt(funcFile.getVowels(city)) });
 });
 
+app.get('/admin', function (req, res) {
+    let users = [
+        { name: 'Lisa', userID: 1343, admin: true },
+        { name: 'Lars', userID: 4224, admin: false },
+        { name: 'Nalle', userID: 6332, admin: true },
+        { name: 'Batman', userID: 1573, admin: true },
+        { name: 'Tjejen', userID: 7297, admin: false },
+        { name: 'Grabben', userID: 2815, admin: false },
+        { name: 'Henrik', userID: 1111, admin: true },
+    ];
+
+    res.send(funcFile.isAdmin(users));
+
+})
+app.get('/addnum', function (req, res) {
+    res.send({ sum: parseInt(funcFile.calculate(2, 6)) })
+
+})
 app.listen(4000);
