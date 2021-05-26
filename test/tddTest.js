@@ -1,3 +1,8 @@
+//Källor:
+// https://dev.to/rafinskipg/a-beginners-guide-to-tdd-javascript-2oj9
+// https://www.youtube.com/watch?v=u5cLK1UrFyQ&t=1469s
+// https://www.youtube.com/watch?v=MLTRHc5dk6s
+
 const request = require('request')
 const app = require('../app');
 const funcFile = require('../public/func');
@@ -5,30 +10,30 @@ const expect = require('chai').expect;
 
 let urlPath = 'http://localhost:4000/';
 
+//___________________________________ admin users endpoint ___________________________________
+
 //Check if the users in the array is admin 
-//
-//Make a function that takes in an array with objects, the objects have information about the users, name, age, and admin/not Admin
-//make sure they are admins - filter threw the array and take out the admin users
-//A endpoint - /admin
-//function places in func.js file and is exported
-//In app.js we will make an endpoint and return an array with all the admin users - filtered in the func
+//Make a function that takes in an array with objects, the objects contains information about the users: name, userID and admin/not Admin
+//Make sure they are all admins - filter threw the array and make sure they are admin users
+//An endpoint - /admin
+//function will be placed in func.js file and will be exported to app.js
+//In app.js we will make an endpoint that renders an array with all the admin users - filtered in the func
 
 describe('Testing admin endpoint', () => {
     let admin = 'admin';
     let adminPath = urlPath + admin;
 
-    describe('Checking to see if all users are admin-users', () => {
-
+    describe('Check the statuscode', () => {
         // Checking status code to be OK, 200
-        it('should return statusCode 200', (done) => {
+        it('Should return statusCode 200', (done) => {
             request(adminPath, function (error, response, body) {
                 expect(response.statusCode).to.equal(200);
                 done();
             })
         })
         // Type of data
-        describe('Returning JSON response, type of', () => {
-            it('Should return a JSON type of', (done) => {
+        describe('Checking if endpoint is in JSON-format', () => {
+            it('Should return a JSON response', (done) => {
                 request(adminPath, function (error, response, body) {
                     expect(response.headers['content-type']).to.equal('application/json; charset=utf-8');
                     done()
@@ -46,39 +51,41 @@ describe('Testing admin endpoint', () => {
                 })
             })
         })
-        // expect(add(1, 1)).toEqual(2);
-        // expect(add(5, 7)).toEqual(12);
-        // expect(add(-4, 5)).toEqual(1);
-
     })
 });
+
+//___________________________________ calculate numbers endpoint ___________________________________
+
+//Make a function that adds two numbers and returns the value
+//function is exported from func.js file and is executed in app.js
+//make an endpoint - /addnum
+//test to see if the numbers are added correctly
 
 describe('Calculate the value of two numbers', () => {
     let addNum = 'addnum';
     let addNumPath = urlPath + addNum;
 
-    describe('Check if the numbers are added together', () => {
-        it('should have an add method', (done) => {
+    describe('Check the status code', () => {
+        // Checking status code to be 200
+        it('should return statusCode 200', (done) => {
             request(addNumPath, function (error, response, body) {
-                expect(JSON.parse(response.body).sum).to.equal(8)
+                expect(response.statusCode).to.equal(200);
                 done();
             })
         })
-
-        describe('Returning JSON response, type of', () => {
-            it('Should return a JSON type of', (done) => {
+        // return a resonse in JSON format
+        describe('Checking if endpoint is in JSON-format', () => {
+            it('Should return a JSON response', (done) => {
                 request(addNumPath, function (error, response, body) {
-                    console.log(response.headers['content-type'])
                     expect(response.headers['content-type']).to.equal('application/json; charset=utf-8');
                     done();
                 })
             })
-
-            describe('Check the status code', () => {
-                // Checking status code to be OK, 200
-                it('should return statusCode 200', (done) => {
+            // The value in the object should be equal to 8
+            describe('Check if the numbers are added together', () => {
+                it('should have an add method', (done) => {
                     request(addNumPath, function (error, response, body) {
-                        expect(response.statusCode).to.equal(200);
+                        expect(JSON.parse(response.body).sum).to.equal(8)
                         done();
                     })
                 })

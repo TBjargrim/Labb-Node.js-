@@ -8,13 +8,10 @@ const expect = require('chai').expect;
 const express = require('express');
 //importerar värden ifrån random-num komponentern. 
 const funcFile = require('./public/func');
-// console.log(randomNum.num)
-// console.log(randomNum.randomNum)
 
 // importerar bodyParser - tar hand om bodyn i POST requestet och skickar vidare, "middleware"
 const bodyParser = require('body-parser')
 //const urlencodedParser = bodyParser.urlencoded({ extended: false });
-
 
 // skapar en variabel app och som innehåller express. Med det får variablen metoderna som behövs för att köra express.
 const app = express();
@@ -66,7 +63,6 @@ app.get('/people/:firstName', (req, res) => {
 //skapar en ny endpoint, som retunerar värdet ifrån vår function i random-num-komponenten. Ett slumpmässigt nummer
 app.get('/api/custom_random/:num', (req, res) => {
     var num = req.params.num;
-    // console.log(num)
     res.send({ number: parseInt(funcFile.getRandomNum(0, num)).toFixed(0) })
 })
 
@@ -85,8 +81,8 @@ app.get('/admin', function (req, res) {
         { name: 'Grabben', userID: 2815, admin: false },
         { name: 'Henrik', userID: 1111, admin: true },
     ];
-
-    res.send(funcFile.isAdmin(users));
+    res.send('hej')
+    //res.send(funcFile.isAdmin(users));
 
 })
 app.get('/addnum', function (req, res) {

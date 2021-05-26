@@ -1,5 +1,3 @@
-// const assert = require('chai').assert;
-// const axios = require('axios');
 const request = require('request')
 const app = require('../app');
 const funcFile = require('../public/func');
@@ -17,7 +15,6 @@ describe('Vowels endpoint', () => {
     const vowels = 'vowels/Istanbul';
     const vowelsPath = urlPath + vowels;
     describe('Testing vowels enpoint to return 200', () => {
-
         // Checking status code to be OK, 200
         it('should return statusCode 200', (done) => {
             request(vowelsPath, function (error, response, body) {
@@ -25,9 +22,9 @@ describe('Vowels endpoint', () => {
                 done();
             })
         })
-        // Type of data
-        describe('Returning JSON response, type of', () => {
-            it('Should return a JSON type of', (done) => {
+        // Checking if the resonse is JSON format
+        describe('Returning JSON response', () => {
+            it('Should return a JSON response', (done) => {
                 request(vowelsPath, function (error, response, body) {
                     expect(response.headers['content-type']).to.equal('application/json; charset=utf-8');
                     done()
@@ -38,14 +35,13 @@ describe('Vowels endpoint', () => {
             describe('Check if the output is an object', () => {
                 it('Should return an object', (done) => {
                     request(vowelsPath, function (error, response, body) {
-                        console.log(response.body)
                         expect(JSON.parse(response.body)).to.be.a('object')
                         done()
                     })
                 })
             })
 
-            // Checking the getVowels func to see if it counts vowels in string
+            // Checking the getVowels func to see if it counts vowels in the string
             describe('Testing vowels func', () => {
                 it('should count the number of vowels in string', () => {
                     expect(getVowelsResult).to.be.above(0)
@@ -69,9 +65,9 @@ describe('Random number', () => {
                 done();
             })
         })
-        //Type of 
-        describe('Returning JSON response, type of', () => {
-            it('Should return a JSON type of', (done) => {
+        // Checking if the resonse is JSON format 
+        describe('Returning JSON response', () => {
+            it('Should return a JSON response', (done) => {
                 request(randomPath, function (error, response, body) {
                     expect(response.headers['content-type']).to.equal('application/json; charset=utf-8');
                     done()
@@ -94,28 +90,23 @@ describe('Random number', () => {
 
 })
 
-// ________________________________ Custum random number test ________________________________
+// ________________________________ Custum random number ________________________________
 
-//'/api/custom_random/:num'
-//Output a number from the num you put into the url and 0
-//Test if it return statuscode 200
-//Test if it is returned in JSON-data
-//Test if the value is a number inbetween choosen number and 0
 describe('Custum random number', () => {
     const custumRandom = 'api/custom_random/';
     let num = 150;
     const custumRandomPath = urlPath + custumRandom + num;
 
     describe('Testing RandomNum and Num', () => {
-        // Checking status code to be OK, 200
-        it('should return statusCode 200', (done) => {
+        // Checking status code to be 200
+        it('Should return statusCode 200', (done) => {
             request(custumRandomPath, function (error, response, body) {
                 expect(response.statusCode).to.equal(200);
                 done();
             })
         })
-        describe('Checking if endpoint /api/custom_random/:num is in JSON-format', () => {
-            it('Should return a JSON type of', (done) => {
+        describe('Checking if endpoint is in JSON-format', () => {
+            it('Should return a JSON response', (done) => {
                 request(custumRandomPath, function (error, response, body) {
                     expect(response.headers['content-type']).to.equal('application/json; charset=utf-8');
                     done()
@@ -138,35 +129,33 @@ describe('Custum random number', () => {
 })
 
 // ________________________________ People test ________________________________
-//Test People
-//StatusCode 200
-// JSON format
+
+//Testing the people function. An array with people.
+//When a name is entered in the url its added to the last object in the people array
 
 describe('People endpoint testing', () => {
-    // const peoplePath = 'people';
-    const peopleURL = 'http://localhost:4000/people/therese';
-    // const checkName = 'therese';
-    // const peoplePersonURL = urlPath + peoplePath + checkName;
+    const name = 'people/therese';
+    const peoplePath = urlPath + name;
 
     describe('It schould return status code 200', () => {
-        it('should return status 200', (done) => {
-            request(peopleURL, function (error, response, body) {
+        it('Should return status 200', (done) => {
+            request(peoplePath, function (error, response, body) {
                 expect(response.statusCode).to.equal(200);
                 done();
             })
         })
 
-        describe('Checking type of', () => {
+        describe('Checking if resonse is JSON format', () => {
             it('Should return JSON format', (done) => {
-                request(peopleURL, function (error, response, body) {
+                request(peoplePath, function (error, response, body) {
                     expect(response.headers['content-type']).to.equal('application/json; charset=utf-8');
                     done();
                 })
             })
-            // Check if the name in the url path is the same as in the object, expect people[5].firstName = to be the same as the url path
-            describe('Check so the name in the url renders', () => {
-                it('Show params in last object in array, "therese"', (done) => {
-                    request(peopleURL, function (error, response, body) {
+            // Check if the name in the url path is the same as in the object, expect people[5].firstName = to be the same as the end of the url path
+            describe('Check that the name in the url renders', () => {
+                it('return the value of the key, firstName, in the last object', (done) => {
+                    request(peoplePath, function (error, response, body) {
                         expect(JSON.parse(response.body)[5].firstName).to.equal('therese');
                         done();
                     })
@@ -175,24 +164,3 @@ describe('People endpoint testing', () => {
         })
     })
 })
-
-// ____________________________________ beginning of test - fail _______________________________
-// describe('Contact endpoint testing', () => {
-//     const contactPath = 'contact';
-//     const contactURL = urlPath + contactPath;
-//     describe('It schould return status code 200', () => {
-//         it('should return status 200', (done) => {
-//             request(contactURL, function (error, response, body) {
-//                 expect(response.statusCode).to.equal(200);
-//                 done();
-//             })
-//         })
-//     })
-//     describe('Checking type of', () => {
-//         it('Should return JSON format', () => {
-//             request(contactURL, function (error, response, body) {
-//                 console.log(response.req.body)
-//             })
-//         })
-//     })
-// })
