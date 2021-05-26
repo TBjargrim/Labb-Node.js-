@@ -81,8 +81,8 @@ app.get('/admin', function (req, res) {
         { name: 'Grabben', userID: 2815, admin: false },
         { name: 'Henrik', userID: 1111, admin: true },
     ];
-    res.send('hej')
-    //res.send(funcFile.isAdmin(users));
+    // res.send('hej')
+    res.send(funcFile.isAdmin(users));
 
 })
 app.get('/addnum', function (req, res) {
